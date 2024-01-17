@@ -14,4 +14,11 @@ class Controller extends BaseController
     {
         return response()->json($message, $code);
     }
+
+    public function resException($e, $code = 200, $message = "something wrong") {
+        return $this->res([
+            'message' => $message,
+            'error' => $e->getMessage()
+        ], $code);
+    }
 }

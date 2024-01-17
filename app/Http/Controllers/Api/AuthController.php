@@ -31,10 +31,7 @@ class AuthController extends Controller
                 'token' => $token
             ]);
         } catch (Exception $e) {
-            return $this->res([
-                'error' => 'something wrong',
-                'message' => $e->getMessage()
-            ], 400);
+            return $this->resException($e, 400);
         }
     }
 
@@ -72,10 +69,7 @@ class AuthController extends Controller
             
         } catch(Exception $e) {
             // response failed when validation break or something
-            return $this->res([
-                'error' => 'something wrong',
-                'message' => $e->getMessage()
-            ], 400);
+            return $this->resException($e, 400);
         }
     }
 
