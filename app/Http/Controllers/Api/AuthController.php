@@ -30,6 +30,7 @@ class AuthController extends Controller
             return $this->res([
                 'token' => $token
             ]);
+            
         } catch (Exception $e) {
             return $this->resException($e, 400);
         }
@@ -39,27 +40,20 @@ class AuthController extends Controller
     {
         try {
             // do validation and add to database.
-            $request->validate([
+            $validatedData = $request->validate([
                 'name' => 'required',
                 'nik' => 'required|max:16',
-                'username' => 'required|unique:users,username',
+                'username' => 'required|min:3|unique:users,username',
                 'telephone' => 'required|max:13',
                 'birthday' => 'required|date_format:Y-m-d',
                 'email' => 'required|email:unique',
                 'password' => 'required',
             ]);
             
+            $validatedData['password'] = Hash::make($request->input('password'));
+            
             // add record to database
-            $user = User::create([
-                'name' => $request->input('name'),
-                'nik' => $request->input('nik'),
-                'username' => $request->input('username'),
-                'telephone' => $request->input('telephone'),
-                'birthday' => $request->input('birthday'),
-                'email' => $request->input('email'),
-                'password' => Hash::make($request->input('password')),
-            ]);
-    
+            $user = User::create($validatedData);
             
             // response success when new account created.
             return $this->res([

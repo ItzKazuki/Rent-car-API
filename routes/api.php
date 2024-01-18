@@ -31,6 +31,7 @@ Route::group([
     'prefix' => 'user'
 ], function () {
     Route::get('info', [UserController::class, 'showAccount']);
+    Route::patch('update/{id}', [UserController::class, 'updateAccount']);
     Route::delete('delete/{id}', [UserController::class, 'deleteAccount']);
 });
 
@@ -40,5 +41,6 @@ Route::group([
 ], function () {
     Route::post('create', [CarController::class, 'create']);
     Route::get('show/{id}', [CarController::class, 'show']);
+    Route::patch('update/{id}', [CarController::class, 'update']);
     Route::delete('delete/{id}', [CarController::class, 'delete']);
 });

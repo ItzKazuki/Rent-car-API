@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 
 class CarController extends Controller
 {
+    // only admin privilage!
     public function __construct()
     {
         return $this->middleware('is_admin', ['except' => ['show']]);
@@ -38,9 +39,32 @@ class CarController extends Controller
         }
     }
 
-    public function update(Request $request, Car $car)
+    public function update(Request $request, $id)
     {
-        // update car
+        try {
+
+            $oldCar = Car::findOrFail($id);
+
+            $validatedData = $request->validate([
+                'name' => 'required',
+                'type' => 'required|min:3',
+                'manufacture' => 'required',
+                'price' => 'required|numeric',
+                'plat' => 'required',
+                'description' => 'required|max:255',
+            ]);
+            
+            // update car
+            Car::where('id', $oldCar->id)->update($validatedData);
+            
+            return $this->res([
+                'message' => 'success update car info with id: ' . $oldCar->id
+            ]);
+            
+        } catch(Exception $e) {
+            return $this->resException($e, 400);
+        }
+        
     }
 
     public function show($id)
