@@ -17,4 +17,9 @@ class Car extends Model
         'plat',
         'description'
     ];
+
+    public function rent()
+    {
+        return $this->hasMany('App\Models\Rent');
+    }
 }

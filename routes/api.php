@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\CarController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\RentController;
 use App\Http\Controllers\Api\UserController;
 
 /*
@@ -43,4 +44,12 @@ Route::group([
     Route::get('show/{id}', [CarController::class, 'show']);
     Route::patch('update/{id}', [CarController::class, 'update']);
     Route::delete('delete/{id}', [CarController::class, 'delete']);
+});
+
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'rent'
+], function () {
+    Route::post('create', [RentController::class, 'create']);
+    Route::get('show/{rent}', [RentController::class, 'show']);
 });

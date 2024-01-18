@@ -60,6 +60,6 @@ class User extends Authenticatable implements JWTSubject
     }
 
     public function rent() {
-        return $this->hasMany(Rent::class);
+        return $this->hasMany('App\Models\Rent');
     }
 }

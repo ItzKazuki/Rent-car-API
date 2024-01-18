@@ -10,6 +10,8 @@ class Rent extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
+        'car_id',
         'rent_name',
         'date_borrow',
         'date_return',
@@ -18,7 +20,13 @@ class Rent extends Model
         'total_price'
     ];
 
-    public function user() {
-        return $this->belongsTo(User::class);
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User');
+    }
+
+    public function car()
+    {
+        return $this->belongsTo('App\Models\Car');
     }
 }
