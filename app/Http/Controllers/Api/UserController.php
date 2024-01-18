@@ -18,7 +18,7 @@ class UserController extends Controller
     //TODO: This controller must be implement CRUD, Create already use in Auth COntrollr
 
     // READ
-    public function showAccount()
+    public function show()
     {
         return $this->res([
             'message' => 'success get user info!',
@@ -27,7 +27,7 @@ class UserController extends Controller
     }
 
     // UPDATE
-    public function updateAccount(Request $request, $id)
+    public function update(Request $request, $id)
     {
         try {
                 // update something in here, the methode must use update/post
@@ -64,7 +64,7 @@ class UserController extends Controller
     }
 
     // DELETE
-    public function deleteAccount($id)
+    public function delete($id)
     { 
         try {
             // set user

@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\CarController;
 use App\Http\Controllers\Api\AuthController;
@@ -22,7 +21,7 @@ Route::group([
     'middleware' => 'api',
     'prefix' => 'auth'
 ], function () {
-   Route::post('login', [AuthController::class, 'login']); 
+   Route::post('login', [AuthController::class, 'login']);
    Route::post('register', [AuthController::class, 'register']);
    Route::get('logout', [AuthController::class, 'logout']);
 });
@@ -31,9 +30,9 @@ Route::group([
     'middleware' => 'api',
     'prefix' => 'user'
 ], function () {
-    Route::get('info', [UserController::class, 'showAccount']);
-    Route::patch('update/{id}', [UserController::class, 'updateAccount']);
-    Route::delete('delete/{id}', [UserController::class, 'deleteAccount']);
+    Route::get('info', [UserController::class, 'show']);
+    Route::patch('update/{id}', [UserController::class, 'update']);
+    Route::delete('delete/{id}', [UserController::class, 'delete']);
 });
 
 Route::group([
@@ -41,9 +40,9 @@ Route::group([
     'prefix' => 'car'
 ], function () {
     Route::post('create', [CarController::class, 'create']);
-    Route::get('show/{id}', [CarController::class, 'show']);
-    Route::patch('update/{id}', [CarController::class, 'update']);
-    Route::delete('delete/{id}', [CarController::class, 'delete']);
+    Route::get('show/{car}', [CarController::class, 'show']);
+    Route::patch('update/{car}', [CarController::class, 'update']);
+    Route::delete('delete/{car}', [CarController::class, 'delete']);
 });
 
 Route::group([

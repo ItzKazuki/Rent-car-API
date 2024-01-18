@@ -39,12 +39,9 @@ class CarController extends Controller
         }
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, Car $car)
     {
         try {
-
-            $oldCar = Car::findOrFail($id);
-
             $validatedData = $request->validate([
                 'name' => 'required',
                 'type' => 'required|min:3',
@@ -55,10 +52,10 @@ class CarController extends Controller
             ]);
             
             // update car
-            Car::where('id', $oldCar->id)->update($validatedData);
+            Car::where('id', $car->id)->update($validatedData);
             
             return $this->res([
-                'message' => 'success update car info with id: ' . $oldCar->id
+                'message' => 'success update car info with id: ' . $car->id
             ]);
             
         } catch(Exception $e) {
@@ -67,11 +64,9 @@ class CarController extends Controller
         
     }
 
-    public function show($id)
+    public function show(Car $car)
     {
         try {
-            $car = Car::findOrFail($id);
-        
             return $this->res([
                 'message' => 'success get info the car',
                 'car' => $car
@@ -81,15 +76,14 @@ class CarController extends Controller
         }
     }
 
-    public function delete($id)
+    public function delete(Car $car)
     {
         try {
             // delete that car
-            $car = Car::findOrFail($id);
             $car->destroy($car->id);
 
             return $this->res([
-                'message' => 'success delete car with id: ' . $id
+                'message' => 'success delete car with id: ' . $car->id
             ]);
         } catch(Exception $e) {
             return $this->resException($e, 400);
