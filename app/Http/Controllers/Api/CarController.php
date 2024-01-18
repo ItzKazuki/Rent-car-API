@@ -29,7 +29,7 @@ class CarController extends Controller
             ]);
 
             $car = Car::create($input);
-            
+
             return $this->res([
                 'message' => 'success insert new car to database',
                 'car' => $car
@@ -39,9 +39,11 @@ class CarController extends Controller
         }
     }
 
-    public function update(Request $request, Car $car)
+    public function update(Request $request)
     {
         try {
+            $car = Car::findOrFail($request->input('car_id'));
+
             $validatedData = $request->validate([
                 'name' => 'required',
                 'type' => 'required|min:3',
@@ -50,22 +52,32 @@ class CarController extends Controller
                 'plat' => 'required',
                 'description' => 'required|max:255',
             ]);
-            
+
             // update car
             Car::where('id', $car->id)->update($validatedData);
-            
+
             return $this->res([
                 'message' => 'success update car info with id: ' . $car->id
             ]);
-            
+
         } catch(Exception $e) {
             return $this->resException($e, 400);
         }
-        
+
     }
 
-    public function show(Car $car)
+    public function showAll() //method get
     {
+        return $this->res([
+            'message' => 'success get all record cars',
+            'cars' => Car::all()
+        ]);
+    }
+
+    public function show(Request $request) // method post
+    {
+        $car = Car::findOrFail($request->input('car_id'));
+
         try {
             return $this->res([
                 'message' => 'success get info the car',
@@ -76,10 +88,12 @@ class CarController extends Controller
         }
     }
 
-    public function delete(Car $car)
+    public function delete(Request $request)
     {
         try {
             // delete that car
+            $car = Car::findOrFail($request->input('car_id'));
+
             $car->destroy($car->id);
 
             return $this->res([

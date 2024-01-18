@@ -31,8 +31,8 @@ Route::group([
     'prefix' => 'user'
 ], function () {
     Route::get('info', [UserController::class, 'show']);
-    Route::patch('update/{id}', [UserController::class, 'update']);
-    Route::delete('delete/{id}', [UserController::class, 'delete']);
+    Route::patch('update', [UserController::class, 'update']);
+    Route::delete('delete', [UserController::class, 'delete']);
 });
 
 Route::group([
@@ -40,15 +40,17 @@ Route::group([
     'prefix' => 'car'
 ], function () {
     Route::post('create', [CarController::class, 'create']);
-    Route::get('show/{car}', [CarController::class, 'show']);
-    Route::patch('update/{car}', [CarController::class, 'update']);
-    Route::delete('delete/{car}', [CarController::class, 'delete']);
+    Route::get('show', [CarController::class, 'showAll']);
+    Route::post('show', [CarController::class, 'show']);
+    Route::patch('update', [CarController::class, 'update']);
+    Route::delete('delete', [CarController::class, 'delete']);
 });
 
 Route::group([
-    'middleware' => 'api',
+    'middleware' => ['api', 'auth:api'],
     'prefix' => 'rent'
 ], function () {
     Route::post('create', [RentController::class, 'create']);
-    Route::get('show/{rent}', [RentController::class, 'show']);
+    Route::get('show', [RentController::class, 'showAll']);
+    Route::post('show', [RentController::class, 'show']);
 });

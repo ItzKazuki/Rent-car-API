@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use Exception;
+use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -14,7 +16,7 @@ class AuthController extends Controller
     {
         return $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
-    
+
     public function login(Request $request)
     {
         try {
@@ -22,15 +24,15 @@ class AuthController extends Controller
                 'username' => 'required',
                 'password' => 'required'
             ]);
-    
-            if(! $token = auth()->attempt($inputUser)) {
+
+            if(! $token = Auth::attempt($inputUser)) {
                 return $this->res(['error' => 'not allowed'], 403);
             }
-            
+
             return $this->res([
                 'token' => $token
             ]);
-            
+
         } catch (Exception $e) {
             return $this->resException($e, 400);
         }
@@ -49,18 +51,18 @@ class AuthController extends Controller
                 'email' => 'required|email:unique',
                 'password' => 'required',
             ]);
-            
+
             $validatedData['password'] = Hash::make($request->input('password'));
-            
+
             // add record to database
             $user = User::create($validatedData);
-            
+
             // response success when new account created.
             return $this->res([
                 'message' => 'Success Create new account!',
                 'user' => $user
             ]);
-            
+
         } catch(Exception $e) {
             // response failed when validation break or something
             return $this->resException($e, 400);
